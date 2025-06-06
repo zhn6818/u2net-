@@ -83,12 +83,13 @@ def calculate_accuracy(pred, target, threshold=0.5):
 
 # -------- 配置参数 ---------
 model_name = 'u2net_grain' # 可选: 'u2net', 'u2netp', 'u2net_grain', 'u2netp_grain'
-num_channels = 1  # 分割输出通道数 (1: 单通道分割, >1: 多通道分割)
+num_channels = 3  # 分割输出通道数 (1: 单通道分割, >1: 多通道分割)
 batch_size_train = 2  # 训练批次大小
 learning_rate = 0.001  # 学习率
 epoch_num = 100000  # 最大训练轮次
-train_txt_path = "./dataset/train.txt"  # 训练数据文件列表
+train_txt_path = "./datasetv2/train.txt"  # 训练数据文件列表
 save_freq = 2000  # 模型保存频率(迭代次数)
+model_size = 512
 
 # 将模型名称和通道数拼接作为文件夹名，便于区分不同类别的模型
 model_dir_name = f"{model_name}_{num_channels}ch"
@@ -137,7 +138,7 @@ if num_channels == 1:
         img_name_list=tra_img_name_list,
         lbl_name_list=tra_lbl_name_list,
         transform=transforms.Compose([
-            RescaleT(512),
+            RescaleT(model_size),
             ColorJitter(
                 brightness=0.5, 
                 contrast=0.5, 
@@ -165,7 +166,7 @@ else:
         img_name_list=tra_img_name_list,
         lbl_name_list=tra_lbl_name_list,
         transform=transforms.Compose([
-            RescaleT(512),
+            RescaleT(model_size),
             ColorJitter(
                 brightness=0.5, 
                 contrast=0.5, 
